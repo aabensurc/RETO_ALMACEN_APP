@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  <div class="card shadow-lg rounded-lg">
+    <div class="card-header bg-secondary text-white text-center rounded-top-lg">
+      <h3 class="mb-0">Gestión de Productos</h3>
+    </div>
+    <div class="card-body p-4">
+      <div *ngIf="mensajeExito" class="alert alert-success mb-3 rounded-md" role="alert">
+        {{ mensajeExito }}
+      </div>
+      <div *ngIf="mensajeError" class="alert alert-danger mb-3 rounded-md" role="alert">
+        {{ mensajeError }}
+      </div>
+
+      <!-- Formulario de Creación/Edición -->
+      <div class="mb-4 p-3 border rounded-md bg-light">
+        <h4 class="text-gray-800">{{ productoSeleccionado ? 'Editar Producto' : 'Crear Nuevo Producto' }}</h4>
+        <form (ngSubmit)="productoSeleccionado ? actualizarProducto() : crearProducto()">
+          <div class="mb-3">
+            <label for="nombreProducto" class="form-label text-gray-700">Nombre</label>
+            <input type="text" class="form-control rounded-md" id="nombreProducto"
+                   [(ngModel)]="formProducto.nombre" name="nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="skuProducto" class="form-label text-gray-700">SKU (Código)</label>
+            <input type="text" class="form-control rounded-md" id="skuProducto"
+                   [(ngModel)]="formProducto.sku" name="sku">
+          </div>
+          <div class="mb-3">
+            <label for="descripcionProducto" class="form-label text-gray-700">Descripción</label>
+            <textarea class="form-control rounded-md" id="descripcionProducto" rows="3"
+                      [(ngModel)]="formProducto.descripcion" name="descripcion"></textarea>
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary rounded-md">
+              {{ productoSeleccionado ? 'Actualizar Producto' : 'Crear Producto' }}
+            </button>
+            <button type="button" class="btn btn-outline-secondary rounded-md" (click)="limpiarFormulario()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <hr class="my-4">
+
+      <!-- Lista de Productos -->
+      <h4 class="text-gray-800 mb-3">Productos Existentes</h4>
+      <div *ngIf="productos.length === 0 && !mensajeError" class="alert alert-info rounded-md">
+        No hay productos registrados.
+      </div>
+      <div *ngIf="productos.length > 0" class="table-responsive">
+        <table class="table table-striped table-hover rounded-md overflow-hidden">
+          <thead class="bg-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">SKU</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let producto of productos">
+              <td>{{ producto.id }}</td>
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.sku }}</td>
+              <td>{{ producto.descripcion }}</td>
+              <td>
+                <button class="btn btn-sm btn-info me-2 rounded-md" (click)="seleccionarProducto(producto)">Editar</button>
+                <button class="btn btn-sm btn-danger rounded-md" (click)="eliminarProducto(producto.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

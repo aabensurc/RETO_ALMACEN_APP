@@ -1,0 +1,76 @@
+<div class="container mt-5">
+  <div class="card shadow-lg rounded-lg">
+    <div class="card-header bg-warning text-white text-center rounded-top-lg">
+      <h3 class="mb-0">Gestión de Proveedores</h3>
+    </div>
+    <div class="card-body p-4">
+      <div *ngIf="mensajeExito" class="alert alert-success mb-3 rounded-md" role="alert">
+        {{ mensajeExito }}
+      </div>
+      <div *ngIf="mensajeError" class="alert alert-danger mb-3 rounded-md" role="alert">
+        {{ mensajeError }}
+      </div>
+
+      <!-- Formulario de Creación/Edición -->
+      <div class="mb-4 p-3 border rounded-md bg-light">
+        <h4 class="text-gray-800">{{ proveedorSeleccionado ? 'Editar Proveedor' : 'Crear Nuevo Proveedor' }}</h4>
+        <form (ngSubmit)="proveedorSeleccionado ? actualizarProveedor() : crearProveedor()">
+          <div class="mb-3">
+            <label for="nombreProveedor" class="form-label text-gray-700">Nombre</label>
+            <input type="text" class="form-control rounded-md" id="nombreProveedor"
+                   [(ngModel)]="formProveedor.nombre" name="nombre" required>
+          </div>
+          <div class="mb-3">
+            <label for="emailProveedor" class="form-label text-gray-700">Email de Contacto</label>
+            <input type="email" class="form-control rounded-md" id="emailProveedor"
+                   [(ngModel)]="formProveedor.contacto_email" name="contacto_email">
+          </div>
+          <div class="mb-3">
+            <label for="telefonoProveedor" class="form-label text-gray-700">Teléfono de Contacto</label>
+            <input type="text" class="form-control rounded-md" id="telefonoProveedor"
+                   [(ngModel)]="formProveedor.contacto_telefono" name="contacto_telefono">
+          </div>
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary rounded-md">
+              {{ proveedorSeleccionado ? 'Actualizar Proveedor' : 'Crear Proveedor' }}
+            </button>
+            <button type="button" class="btn btn-outline-secondary rounded-md" (click)="limpiarFormulario()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <hr class="my-4">
+
+      <!-- Lista de Proveedores -->
+      <h4 class="text-gray-800 mb-3">Proveedores Existentes</h4>
+      <div *ngIf="proveedores.length === 0 && !mensajeError" class="alert alert-info rounded-md">
+        No hay proveedores registrados.
+      </div>
+      <div *ngIf="proveedores.length > 0" class="table-responsive">
+        <table class="table table-striped table-hover rounded-md overflow-hidden">
+          <thead class="bg-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Email</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let proveedor of proveedores">
+              <td>{{ proveedor.id }}</td>
+              <td>{{ proveedor.nombre }}</td>
+              <td>{{ proveedor.contacto_email }}</td>
+              <td>{{ proveedor.contacto_telefono }}</td>
+              <td>
+                <button class="btn btn-sm btn-info me-2 rounded-md" (click)="seleccionarProveedor(proveedor)">Editar</button>
+                <button class="btn btn-sm btn-danger rounded-md" (click)="eliminarProveedor(proveedor.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

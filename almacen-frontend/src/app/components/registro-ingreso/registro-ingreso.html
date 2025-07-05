@@ -1,0 +1,61 @@
+<div class="container mt-5">
+  <div class="card shadow-lg rounded-lg">
+    <div class="card-header bg-info text-white text-center rounded-top-lg">
+      <h3 class="mb-0">Registrar Ingreso de Productos al Almacén</h3>
+    </div>
+    <div class="card-body p-4">
+      <form (ngSubmit)="alEnviar()">
+        <div class="mb-3">
+          <label for="proveedorSelect" class="form-label text-gray-700">Proveedor</label>
+          <select class="form-select rounded-md" id="proveedorSelect" [(ngModel)]="ingreso.id_proveedor" name="id_proveedor" required>
+            <option [ngValue]="null" disabled>Seleccione un proveedor</option>
+            <option *ngFor="let prov of proveedoresDisponibles" [ngValue]="prov.id">{{ prov.nombre }}</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="numero_guia" class="form-label text-gray-700">Número de Guía</label>
+          <input type="text" class="form-control rounded-md" id="numero_guia" [(ngModel)]="ingreso.numero_guia" name="numero_guia" required>
+        </div>
+
+        <h4 class="mt-4 mb-3 text-gray-800">Productos:</h4>
+        <div *ngFor="let producto of ingreso.productos; let i = index" class="row mb-3 align-items-end border p-3 rounded-md bg-light">
+          <div class="col-md-5 mb-2">
+            <label [for]="'productoSelect' + i" class="form-label text-gray-700">Producto</label>
+            <select [id]="'productoSelect' + i" class="form-select rounded-md" [(ngModel)]="producto.id_producto" [name]="'id_producto' + i" required>
+              <option [ngValue]="null" disabled>Seleccione un producto</option>
+              <option *ngFor="let prod of productosDisponibles" [ngValue]="prod.id">{{ prod.nombre }}</option>
+            </select>
+          </div>
+          <div class="col-md-3 mb-2">
+            <label [for]="'cantidadProducto' + i" class="form-label text-gray-700">Cantidad</label>
+            <input type="number" [id]="'cantidadProducto' + i" class="form-control rounded-md" [(ngModel)]="producto.cantidad" [name]="'cantidadProducto' + i" min="1" required>
+          </div>
+          <div class="col-md-3 mb-2">
+            <label [for]="'estadoProducto' + i" class="form-label text-gray-700">Estado</label>
+            <select [id]="'estadoProducto' + i" class="form-select rounded-md" [(ngModel)]="producto.estado" [name]="'estadoProducto' + i" required>
+              <option value="Disponible">Disponible</option>
+              <option value="No disponible">No disponible</option>
+              <option value="Merma">Merma</option>
+            </select>
+          </div>
+          <div class="col-md-1 mb-2 d-flex align-items-end">
+            <button type="button" class="btn btn-danger btn-sm rounded-md w-100" (click)="eliminarCampoProducto(i)">X</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary mt-3 rounded-md" (click)="agregarCampoProducto()">Añadir Otro Producto</button>
+
+        <div *ngIf="mensajeExito" class="alert alert-success mt-4 rounded-md" role="alert">
+          {{ mensajeExito }}
+        </div>
+        <div *ngIf="mensajeError" class="alert alert-danger mt-4 rounded-md" role="alert">
+          {{ mensajeError }}
+        </div>
+
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-info btn-lg rounded-md text-white">Registrar Ingreso</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

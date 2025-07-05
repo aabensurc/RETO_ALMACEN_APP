@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" routerLink="/dashboard">Almacén App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ng-container *ngIf="estaLogueado$ | async">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/ingreso" routerLinkActive="active">Registrar Ingreso</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/reporte" routerLinkActive="active">Reporte de Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/gestion-productos" routerLinkActive="active">Gestionar Productos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/gestion-proveedores" routerLinkActive="active">Gestionar Proveedores</a>
+          </li>
+        </ng-container>
+      </ul>
+      <ul class="navbar-nav">
+        <ng-container *ngIf="!(estaLogueado$ | async)">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/iniciar-sesion" routerLinkActive="active">Iniciar Sesión</a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="estaLogueado$ | async">
+          <li class="nav-item">
+            <button class="btn btn-outline-light rounded-md" (click)="alCerrarSesion()">Cerrar Sesión</button>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- Script de Bootstrap para el dropdown (aunque ya no se usa, es buena práctica mantenerlo si hay otros componentes que lo usen) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
