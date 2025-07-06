@@ -21,7 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('detalles-ingresos-productos/{detalleIngresoProducto}/estado', [IngresoProductoController::class, 'actualizarEstadoProducto']);
 
     // Rutas para gestionar proveedores (CRUD completo)
-    Route::apiResource('proveedores', ProveedorController::class);
+   Route::apiResource('proveedores', ProveedorController::class)
+    ->parameters(['proveedores' => 'proveedor']);
 
     // Rutas para gestionar productos (CRUD completo)
     Route::apiResource('productos', ProductoController::class);
